@@ -9,15 +9,13 @@ solution(input[0])
 function solution(str){
   const number = +str
   let count = 1
-  let arithmeticSequence =6
-  while(true){
-    
-    if(number <= arithmeticSequence){
-      console.log(count);
-      break;
-    }
+  let arithmeticSequence =1
+  while(arithmeticSequence < number){
 
-    arithmeticSequence = arithmeticSequence + (6*count)
+    arithmeticSequence += 6*count
     count++
   }
+
+  console.log(count);
+
 }
