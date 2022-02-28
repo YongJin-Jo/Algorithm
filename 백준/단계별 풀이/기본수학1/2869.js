@@ -9,12 +9,7 @@ function solution(str){
   const A = arr[0]
   const B = arr[1]
   const V = arr[2]
-  let distance =0
-  let count =0
-  do{
-    distance += A
-    distance -= B
-    count++
-  }while( distance < V )
-  console.log(distance);
+  
+  console.log(Math.ceil(V-B/A-B));
+
 }
