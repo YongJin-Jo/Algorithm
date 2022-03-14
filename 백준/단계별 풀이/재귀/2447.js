@@ -4,13 +4,14 @@ let number = Number(input);
 let str = "";
 
 function PaintStar(i, j){
-    console.log(i,j);
     if(i % 3 === 1 && j % 3 === 1){
+
         str += " ";
     }else{
         if(Math.floor(i / 3) === 0 && Math.floor(j / 3) === 0){
             str += "*";
         }else{
+
             PaintStar(Math.floor(i / 3), Math.floor(j / 3));
         }
     }
@@ -24,3 +25,5 @@ for(let i = 0; i < number; i++){
         str+= "\n";
     }
 }
+
+console.log(str);
