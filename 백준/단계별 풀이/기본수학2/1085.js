@@ -9,7 +9,6 @@ function soultion(number){
   const counters = [x,y,w-x,h-y]
 
   console.log(Math.min(...counters));
-
-  
+ 
 
 }
