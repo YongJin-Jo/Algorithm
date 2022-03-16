@@ -15,15 +15,10 @@ function solution(str){
   // n(n-1)/2 1~(n-1) 까지 개수
   // 열의 위치
   let num = X -(index-1)*index/2
-  console.log(sum, num)
 
   if(index % 2 == 0){
     console.log(`${num}/${index-num+1}`);
   }else{
     console.log(`${index-num+1}/${num}`)
   }
-
-
-
-
 }
