@@ -5,6 +5,7 @@ solution(input)
 
 function solution(arg){
   let str = []
+  const array =  arg[0].split(' ').map(item => +item)
   const sort = arg[0].split(' ').map(item => +item).sort((a,b) => a-b)
   let len = sort.length
 
@@ -15,7 +16,6 @@ function solution(arg){
     map.set(item,index)
   });
   for(let i=0; i<len; i++){
-    const array =  arg[0].split(' ').map(item => +item)
     const num = array[i]
     if(map.has(num)){
       str.push(map.get(num))
