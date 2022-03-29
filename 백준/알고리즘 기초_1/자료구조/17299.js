@@ -16,12 +16,10 @@ for(key of array){
 }
 
 array.map((x,i)=>{
-  let number = array[stack[stack.length-1]]
-  console.log(number,count.get(number),x,count.get(x)); 
-  while(stack.length && count.get(number) < count.get(x)){
-    result[stack.pop()] =x
+  while (stack.length && count.get(array[stack[stack.length - 1]]) < count.get(x)) {
+    result[stack.pop()] = x;
   }
-  stack.push(i)
+  stack.push(i);
 })
 
-console.log(result);
+console.log(result.join(' '));
