@@ -1,5 +1,5 @@
 const fs = 'baekjoon'
-const S = fs.toString().split('')
+const S = fs.toString().trim().split('')
 const len = S.length
 const array =[]
 for(let i=0; i<len; i++){
