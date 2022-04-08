@@ -1,26 +1,26 @@
 const fs ='8\n20\n42\n0'
-const input = fs.toString().trim().split('\n')
+const input = fs.toString().trim().split('\n').map(item => +item)
+let result=''
+let max = Math.max(...input)
+let sof = SOF(max)
 
-for(let i=0; i<input.length-1; i++){
-  const number = +input[i] 
-  const sof = SOF(number)
-  let j=0
-  while(j<sof.length){
-    const PrimeNumber1 = sof[j]
-    const PrimeNumber2 = number- PrimeNumber1
-    if(sof.includes(PrimeNumber2)){
-      console.log(`${number} = ${PrimeNumber1} + ${PrimeNumber2}`);
+input.map(item =>{
+  let number = +item
+  let i=3
+  while(i<sof.length){
+    if (sof[i] && sof[number - i]) {
+      result += `${number} = ${i} + ${number - i}\n`;
       break;
-    } 
-    j++
+    }
+    i+=2
   }
-}
+})
 
+console.log(result.trim());
 
 //SieveOfEratosthenes
 function SOF(number){
   const isPrimeNumber = Array(number+1).fill(true)
-  const PrimeNumber= [] 
   isPrimeNumber[0]= isPrimeNumber[1] = false
 
   for(let i=2; i<isPrimeNumber.length; i++){
@@ -33,10 +33,5 @@ function SOF(number){
     }
   }
 
-  for(let i=0; i<isPrimeNumber.length; i++){
-    if(isPrimeNumber[i] && i%2 !=0 ){
-      PrimeNumber.push(i)
-    }
-  }
-  return PrimeNumber
+  return isPrimeNumber
 }
