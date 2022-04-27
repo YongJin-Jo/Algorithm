@@ -1,18 +1,12 @@
-const  fs = '4\n3 5 15 16'
-const [T,input] = fs.toString().trim().split('\n')
-const dp = input.toString().split(' ').map(item => +item)
-dp.unshift(0)
-
-for(let i=2; i<=T; i++){
-  if(i <=2){
-    dp[i] = Math.max(dp[i],dp[1]+dp[1])
-  }else{
-    let count = 1
-    while (count<Math.ceil(i/2)) {
-      let m = i-count
-      dp[i] = Math.max(dp[i],dp[m]+dp[count])
-      count++
-    }
+const  fs = '10\n5 10 11 12 13 30 35 40 45 47'
+const input = fs.toString().trim().split('\n');
+const N = +input[0]
+const card = input[1].split(' ').map(Number)
+let dp = [0,...card]
+for(let i = 2; i<dp.length; i++){
+  for(let j = 1; j<i; j++){
+    dp[i] = Math.max(dp[i],(dp[i-j]+dp[j]))
   }
 }
-console.log(dp[T]);
+
+console.log(dp[N])
