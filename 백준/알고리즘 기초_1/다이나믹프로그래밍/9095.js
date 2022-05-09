@@ -1,4 +1,4 @@
-const fs ='3\n4\n7\n10'
+const fs ='3\n5\n7\n10'
 const [T,...input] = fs.toString().trim().split('\n')
 let dp =[0,1,2,4]
 
