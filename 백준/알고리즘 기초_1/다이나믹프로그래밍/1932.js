@@ -9,6 +9,9 @@ for(let i=1; i<n; i++){
     if(j>0){
       dp[i][j] = dp[i-1][j-1] +dt[i][j]
       dp[i][j] = Math.max(dp[i][j],dp[i-1][j] + dt[i][j])
+    }else{
+      dp[i][j] = dp[i-1][j] +dt[i][j]
+      dp[i][j] = Math.max(dp[i][j],dp[i-1][j] + dt[i][j])
     }
 
   }
