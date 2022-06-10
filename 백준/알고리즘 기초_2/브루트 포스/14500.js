@@ -1,96 +1,163 @@
-const fs ='4 5\n1 2 3 4 5\n1 2 3 4 5\n1 2 3 4 5\n1 2 3 4 5'
+const fs ='4 10\n1 2 1 2 1 2 1 2 1 2\n2 1 2 1 2 1 2 1 2 1\n1 2 1 2 1 2 1 2 1 2\n2 1 2 1 2 1 2 1 2 1'
 const [NM,...DataTable]=fs.toString().trim().split('\n')
 const [N,M] = NM.split(' ').map(_ => +_)
-const DT = DataTable.map(item => item.split(' ').map(_ => +_))
-const board = new Array(N+5).fill().map(_ => new Array(M+5).fill(0))
-console.log(board);
+const board = DataTable.map(item => item.split(' ').map(_ => +_))
 let max = 0
-for(let i=1; i<=N; i++){
-  for(let j=1; j<=M; j++){
-    board[i][j] = DT[i-1][j-1]
+for(let i=0; i<N; i++){
+  for(let j=0; j<M; j++){
+    max= Math.max(max,
+                  I0(i,j),
+                  I90(i,j),
+                  O(i,j),
+                  L0(i,j),
+                  L90(i,j),
+                  L180(i,j),
+                  L270(i,j),
+                  LR0(i,j),
+                  LR90(i,j),
+                  LR180(i,j),
+                  LR270(i,j),
+                  T0(i,j),
+                  T90(i,j),
+                  TR0(i,j),
+                  TR90(i,j),
+                  Z0(i,j),
+                  Z90(i,j),
+                  ZR0(i,j),
+                  ZR90(i,j)
+                  )
   }
 }
 
-for(let i=1; i<=N; i++){
-  for(let j=1; j<=M; j++){
-    const Imino = I(i,j)
-    const Omino = O(i,j)
-    const Lmino = L(i,j)
-    const Tmino = T(i,j)
-    const Zmino = Z(i,j)
-    max = Math.max(max,Imino,Omino,Lmino,Tmino,Zmino)
-  }
-}
 console.log(max);
 
-function I (i,j){
-  let i_0 =0
-  let i_90 = 0
-  for(let k=0; k<4; k++){i_0 += board[i+k][j]} 
-  for(let k=0; k<4; k++){i_90 += board[i][j+k]}
-  return Math.max(i_0,i_90)
+function I0 (i,j){
+  if(j+3<M){
+    return board[i][j] +board[i][j+1]+board[i][j+2]+board[i][j+3]
+  }
+  return 0
 }
 
+function I90 (i,j){
+  if(i+3<N){
+    return board[i][j] +board[i+1][j]+board[i+2][j]+board[i+3][j]
+  }
+  return 0
+}
 
 function O(i,j){
-  let o = 0
-  for(let k =0; k<2; k++){
-    o = board[i+k][j]+ board[i+k][j+1]
+  if(i+1<N && j+1<M ){
+    return board[i][j]+board[i][j+1]+board[i+1][j]+board[i+1][j+1]
   }
-  return o
+  return 0
 }
 
-
-function L(i,j){
-  let l_0 = 0,l_90= 0,l_180= 0,l_270= 0
-  let l_r_0= 0 ,l_r_90= 0, l_r_270= 0,l_r_180= 0
-  
-
-  for(let k=0; k<3; k++){
-    l_0 += board[i+k][j]
-    l_90 += board[i][j+k]
+function L0(i,j){
+  if(i+2<N && j+1<M){
+    return board[i][j]+board[i+1][j]+board[i+2][j]+board[i+2][j+1]
   }
-  
-  l_r_0 = l_0 + board[i+2][j-1]
-  l_r_90 = l_90 + board[i+1][j+2]
-  l_r_180 = l_0 + board[i][j+1]
-  l_r_270 =l_90 + board[i-1][j+2]?board[i-1][j+2]:0
-
-  
-  l_180 = l_0 + board[i][j-1]
-  l_270 += (board[i-1][j]?board[i-1][j]:0)
-  l_0 += board[i+2][j+1]
-  l_90 += board[i+1][j]
-
-  return Math.max(l_0,l_180,l_270,l_90,l_r_0,l_r_180,l_r_270,l_r_90)
-} 
-
-function T(i,j){
-  let t_0 =0, t_90 =0
-  let t_r_0 =0, t_r_90 =0
-
-  for(let k=0; k<3; k++){
-    t_0 += board[i][j+k]
-    t_90 += board[i+k][j]
-  }
-
-  t_r_0 = t_0 + (board[i-1][j+1]? board[i-1][j+1]:0)
-  t_r_90 = t_90 + board[i+1][j+1]
-  t_0 += board[i+1][j+1]
-  t_90 += board[i][j-1]
-  return Math.max(t_0,t_90,t_r_0,t_r_90)
+  return 0
 }
 
-function Z(i,j){
-  let z_0 =0, z_90 = 0
-  let z_r_0 =0, z_r_90 =0
-  for(let k=0; k<2; k++){
-    z_0 += board[i+k][j]
-    z_90+= board[i][j+k]
+function L90(i,j){
+  if(i+1<N &&j+2<M ){
+    return board[i][j]+board[i][j+1]+board[i][j+2]+board[i+1][j]
   }
-  z_r_0 = z_0 + board[i][j+1] + board[i+1][j-1]
-  z_r_90 = z_90 + (board[i-1][j+1]?board[i-1][j+1]:0) + board[i+1][j]
-  z_0 += board[i][j-1] + board[i+1][j+1]
-  z_90 +=board[i-1][j] + board[i+1][j+1]
-  return Math.max(z_0,z_90,z_r_0,z_r_90)
+  return 0
+}
+
+function L180(i,j){
+  if(i+2<N && j+1<M){
+    return board[i][j]+board[i][j+1]+board[i+1][j+1]+board[i+2][j+1]
+  }
+  return 0
+}
+
+function L270(i,j){
+  if(i+1<N && j+2<M){
+    return board[i][j+2]+board[i+1][j]+board[i+1][j+1]+board[i+1][j+2]  
+  }
+  return 0;
+}
+
+function LR0(i,j){
+  if(i+2<N && j+1<M){
+    return board[i][j+1]+board[i+1][j+1]+board[i+2][j+1]+board[i+2][j]
+  }
+  return 0
+}
+
+function LR90(i,j){
+  if(i+1<N && j+2<M){
+    return board[i][j]+board[i][j+1]+board[i][j+2]+board[i+1][j+2]
+  }
+  return 0
+}
+
+function LR180(i,j){
+  if(i+2<N&& j+1<M){
+    return board[i][j]+board[i+1][j]+board[i+2][j] +board[i][j+1]
+  }
+  return 0
+}
+
+function LR270(i,j){
+  if(i-1>=0 && j+2<M){
+    return board[i][j]+board[i][j+1]+board[i][j+2]+board[i-1][j]
+  }
+  return 0
+}
+
+//board[i][j]
+function Z0(i,j){
+  if(i+1 <N && j+2 <M){
+    return board[i][j]+board[i][j+1]+board[i+1][j+1]+board[i+1][j+2]
+  }
+  return 0
+}
+
+function Z90(i,j){
+  if(i+2<N && j+1<M){
+    return board[i][j+1]+board[i+1][j]+board[i+1][j+1]+board[i+2][j]
+  }
+  return 0
+}
+
+function ZR0(i,j){
+  if(i+1<N&& j+2<M){
+    return board[i][j+1]+board[i][j+2]+board[i+1][j]+board[i+1][j+1]
+  }
+  return 0
+}
+
+function ZR90(i,j){
+  if(i+2<N && j+1<M){
+    return board[i][j]+board[i+1][j]+board[i+1][j+1]+board[i+2][j+1]
+  }
+  return 0
+}
+
+function T0(i,j){
+  if(i+1<N&& j+2<M){
+    return board[i][j]+board[i][j+1]+board[i][j+2]+board[i+1][j+1]
+  }
+  return 0
+}
+function T90(i,j){
+  if(i+2<N&& j+1<M){
+    return board[i+1][j]+board[i][j+1]+board[i+1][j+1]+board[i+2][j+1]
+  }
+  return 0
+}
+function TR0(i,j){
+  if(i+1<N&& j+2 <M){
+    return board[i][j+1]+board[i+1][j]+board[i+1][j+1]+board[i+1][j+2]
+  }
+  return 0
+}
+function TR90(i,j){
+  if(i+2<N&& j+1<M){
+    return board[i][j]+board[i+1][j]+board[i+2][j]+board[i+1][j+1]
+  }
+  return 0
 }
